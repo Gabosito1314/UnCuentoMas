@@ -1,11 +1,14 @@
-# 🎭 Un Cuento Más — *2D Puppet Theater Action & Narrative Game*
+# Un Cuento Más — *2D Puppet Theater Action & Narrative Game*
+
+[![Jugar Ahora](https://img.shields.io/badge/JUGAR%20AHORA%20%E2%9E%94-222222?style=for-the-badge)](https://eduardoviscarra.itch.io/un-cuento-mas) [![Play on Itch.io](https://img.shields.io/badge/Itch.io-eduardoviscarra.itch.io%2Fun--cuento--mas-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://eduardoviscarra.itch.io/un-cuento-mas)
+[![Download Release](https://img.shields.io/badge/GitHub%20Release-Windows%20Build%20v1.0.0-2ea44f?style=for-the-badge&logo=github)](https://github.com/Gabosito1314/UnCuentoMas/releases/tag/v1.0.0)
 
 ![Unity 6](https://img.shields.io/badge/Engine-Unity%206%20(6000.6.4f1)-black?logo=unity)
 ![Language](https://img.shields.io/badge/Language-C%23%20(.NET)-239120?logo=csharp)
 ![Architecture](https://img.shields.io/badge/Architecture-Observer%20%7C%20FSM%20%7C%20Custom%20Editor%20Tooling-blueviolet)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20WebGL-0078D6)
 
-> **Un juego 2D de acción, combate y narrativa ramificada ambientado en un teatro de títeres medieval**, donde cada personaje, enemigo, jefe, cartel de diálogo e interfaz cuelga de varillas e hilos animados proceduralmente, y donde la decisión moral final transforma el escenario entero.
+> **Juego 2D de acción, combate y narrativa ramificada ambientado en un teatro de títeres medieval**, donde cada personaje, enemigo, jefe, cartel de diálogo e interfaz cuelga de varillas e hilos animados proceduralmente, y donde la decisión moral final transforma el escenario entero.
 
 <p align="center">
   <img src="Docs/Media/stage3_boss_aerial.jpg" alt="Batalla contra el Dragón - Fase Aérea" width="49%" />
@@ -20,11 +23,11 @@
 
 ---
 
-## 📋 Ficha Técnica
+## Ficha Técnica
 
 | Atributo | Detalle |
 | :--- | :--- |
-| **Motor & Versión** | Unity 6 (`6000.6.4f1`) — Universal Render Pipeline (URP 2D) |
+| **Motor y Versión** | Unity 6 (`6000.6.4f1`) — Universal Render Pipeline (URP 2D) |
 | **Lenguaje** | C# (Namespaces modulares `UnCuentoMas`, `UnCuentoMas.Editor`) |
 | **Género** | 2D Action-Platformer / Boss Rush / Narrativa Interactiva con Múltiples Finales |
 | **Sistemas Destacados** | FSM de Jefe Multifase, Animación Procedural de Títeres (`Squash & Stretch` + Oscilación), Sistema de Telón Escénico, Constructor Automático de Escenas en `UnityEditor` |
@@ -32,31 +35,31 @@
 
 ---
 
-## 🏗️ Arquitectura de Sistemas
+## Arquitectura de Sistemas
 
-El proyecto separa estrictamente la lógica de **Combate**, **Control del Jugador**, **Orquestación Narrativa**, **Transiciones Escénicas (Telón)** y **Herramientas de Editor (`UnityEditor`)**, comunicando las acciones mediante eventos desacoplados (`Observer Pattern`).
+El proyecto separa la lógica de **Combate**, **Control del Jugador**, **Orquestación Narrativa**, **Transiciones Escénicas (Telón)** y **Herramientas de Editor (`UnityEditor`)**, comunicando las acciones mediante eventos desacoplados (`Observer Pattern`).
 
 ```mermaid
 flowchart TD
-    subgraph Editor["🛠️ Editor Tooling (UnityEditor)"]
+    subgraph Editor["Editor Tooling (UnityEditor)"]
         TSB["TheaterSceneBuilderEditor.cs<br/>Generación y sincronización automática de 6 escenas"]
     end
 
-    subgraph Core["🎭 Core & Escenario Teatral"]
+    subgraph Core["Core & Escenario Teatral"]
         CSM["CurtainStageManager.cs<br/>Transiciones de Telón y Sub-secciones"]
         PW["PuppetWobble.cs<br/>Física procedural de varillas e hilos"]
         HTS["HangingTextSignPuppet.cs<br/>Carteles narrativos colgantes"]
         AM["AudioManager.cs<br/>Banda sonora adaptativa por acto y final"]
     end
 
-    subgraph Gameplay["⚔️ Gameplay & Combate"]
+    subgraph Gameplay["Gameplay & Combate"]
         PMC["PlayerMagoController.cs<br/>Movimiento, Giro de Papel (Dash), Magia Recta/Diagonal"]
         DBC["DragonBossController.cs<br/>FSM Jefe Multifase (Aérea / Terrestre / Verdad)"]
         WM["Stage2ForestWaveManager.cs<br/>Oleadas de Guerreros y Arqueros"]
         EC["EnemyController.cs<br/>IA de enemigos terrestres y aéreos"]
     end
 
-    subgraph Narrative["📖 Narrativa & Finales"]
+    subgraph Narrative["Narrativa & Finales"]
         SEM["StoryAndEndingManager.cs<br/>Orquestador de 5 Actos, Flashback y 2 Finales Jugables"]
     end
 
@@ -69,10 +72,10 @@ flowchart TD
 
 ---
 
-## 🎯 Retos Técnicos y Sistemas Clave (Code Highlights)
+## Retos Técnicos y Sistemas Clave (Code Highlights)
 
 ### 1. Máquina de Estados (FSM) del Jefe Dragón Multifase y Cambio Dinámico de Varilla
-📄 **Código fuente:** [`Assets/_Project/Scripts/Combat/DragonBossController.cs`](Assets/_Project/Scripts/Combat/DragonBossController.cs)
+**Código fuente:** [`Assets/_Project/Scripts/Combat/DragonBossController.cs`](Assets/_Project/Scripts/Combat/DragonBossController.cs)
 
 El combate final en la Cueva del Dragón (`Stage 3`) implementa una máquina de estados con 3 fases (`Phase1_Aerial`, `Phase2_Ground`, `Phase3_DefeatedTruth`) que altera tanto las mecánicas de combate como la **orientación física del títere en el escenario**:
 * **Fase 1 (Aérea):** El dragón cuelga de una varilla desde el **techo del teatro** (`_wobble.ApplyStickOrientation(fromTop: true)`), patrulla horizontalmente con seguimiento visual (`flipX` hacia el jugador) y solo es vulnerable al **hechizo diagonal**. Sus bolas de fuego aéreas pueden ser interceptadas y anuladas en el aire por los proyectiles del Mago.
@@ -87,17 +90,17 @@ El combate final en la Cueva del Dragón (`Stage 3`) implementa una máquina de 
 ---
 
 ### 2. Controlador del Jugador: Detección de Colisión Dual y "Giro de Papel"
-📄 **Código fuente:** [`Assets/_Project/Scripts/Player/PlayerMagoController.cs`](Assets/_Project/Scripts/Player/PlayerMagoController.cs)
+**Código fuente:** [`Assets/_Project/Scripts/Player/PlayerMagoController.cs`](Assets/_Project/Scripts/Player/PlayerMagoController.cs)
 
 Para lograr que el Mago se sienta como una figura de cartón recortado sobre un soporte de madera sin sacrificar precisión en el combate 2D:
-* **Flip de Recorte de Cartón & Squash/Stretch:** Al cambiar de dirección o saltar, se interpola la escala horizontal (`_currentFlipScaleX`) simulando el giro físico de una figura plana de papel y aplicando deformación elástica (`Squash & Stretch`) sin revelar el borde inferior de la varilla bajo el telón.
+* **Flip de Recorte de Cartón y Squash/Stretch:** Al cambiar de dirección o saltar, se interpola la escala horizontal (`_currentFlipScaleX`) simulando el giro físico de una figura plana de papel y aplicando deformación elástica (`Squash & Stretch`) sin revelar el borde inferior de la varilla bajo el telón.
 * **Detección Física Doble en Proyectiles:** Los hechizos (tiro recto/diagonal y versión cargada manteniendo el clic) combinan `Rigidbody2D` cinemático con barrido `Physics2D.OverlapCircleAll` por fotograma para garantizar **cero *tunneling*** (ningún proyectil atraviesa enemigos rápidos o bolas de fuego sin registrar impacto).
 * **Desacoplamiento con Eventos C#:** Expone `event Action<bool, bool> OnAttackFired` y `event Action OnDashFired` para que el sistema de tutorial y narrativa reaccione sin acoplar el controlador del jugador a la UI.
 
 ---
 
 ### 3. Orquestador Narrativo de 5 Actos, Flashback Teatral y 2 Finales Jugables
-📄 **Código fuente:** [`Assets/_Project/Scripts/Narrative/StoryAndEndingManager.cs`](Assets/_Project/Scripts/Narrative/StoryAndEndingManager.cs)
+**Código fuente:** [`Assets/_Project/Scripts/Narrative/StoryAndEndingManager.cs`](Assets/_Project/Scripts/Narrative/StoryAndEndingManager.cs)
 
 En lugar de resolver el desenlace con una pantalla estática, **ambos finales son secuencias jugables** de regreso por las escenas nocturnas (`Stage4_BosqueNoche` y `Stage5_PuebloNoche`):
 * **Tutorial Guiado por Eventos (`Stage1TutorialStep`):** Máquina de 14 estados en el Acto 1 que baja y sube carteles colgantes (`HangingTextSignPuppet`) validando movimiento, exploración del pueblo vacío, tiro recto, tiro diagonal a maniquíes en altura y *Dash* (`Shift`).
@@ -107,7 +110,7 @@ En lugar de resolver el desenlace con una pantalla estática, **ambos finales so
 ---
 
 ### 4. Herramienta de Automatización en Unity Editor (`Scene Builder v6`)
-📄 **Código fuente:** [`Assets/_Project/Scripts/Editor/TheaterSceneBuilderEditor.cs`](Assets/_Project/Scripts/Editor/TheaterSceneBuilderEditor.cs)
+**Código fuente:** [`Assets/_Project/Scripts/Editor/TheaterSceneBuilderEditor.cs`](Assets/_Project/Scripts/Editor/TheaterSceneBuilderEditor.cs)
 
 Para acelerar la iteración de diseño y garantizar consistencia de capas (`Sorting Orders`), fuentes tipográficas (`IM Fell English SDF`) y referencias entre las 6 escenas del juego:
 * Agrega un menú personalizado **`Un Cuento Más/*`** en la barra superior de Unity (`[MenuItem]`) y validación automática (`[InitializeOnLoad]`).
@@ -116,14 +119,14 @@ Para acelerar la iteración de diseño y garantizar consistencia de capas (`Sort
 ---
 
 ### 5. Sistema de Telón Escénico y Animación Procedural de Títeres
-📄 **Código fuente:** [`CurtainStageManager.cs`](Assets/_Project/Scripts/Core/CurtainStageManager.cs) · [`PuppetWobble.cs`](Assets/_Project/Scripts/Core/PuppetWobble.cs) · [`HangingTextSignPuppet.cs`](Assets/_Project/Scripts/Core/HangingTextSignPuppet.cs)
+**Código fuente:** [`CurtainStageManager.cs`](Assets/_Project/Scripts/Core/CurtainStageManager.cs) · [`PuppetWobble.cs`](Assets/_Project/Scripts/Core/PuppetWobble.cs) · [`HangingTextSignPuppet.cs`](Assets/_Project/Scripts/Core/HangingTextSignPuppet.cs)
 
 * **`CurtainStageManager`:** Gestiona las transiciones entre sub-secciones de un mismo escenario y entre escenas distintas mediante una secuencia de frames de telón (`Abiertas` → `Entreabiertas` → `Cerradas`), ocultando el cambio de decorado como en una obra de teatro real.
 * **`PuppetWobble`:** Calcula oscilación sinusoidal de rotación y cabeceo vertical en función de la velocidad de desplazamiento del personaje o NPC, además de instanciar y posicionar automáticamente el soporte de madera (`Palito`) por detrás del sprite para ocultar la unión.
 
 ---
 
-## 📂 Estructura del Código (`Assets/_Project/Scripts/`)
+## Estructura del Código (`Assets/_Project/Scripts/`)
 
 ```text
 Assets/_Project/Scripts/
@@ -154,7 +157,7 @@ Assets/_Project/Scripts/
 
 ---
 
-## 🎮 Controles
+## Controles
 
 | Acción | Control |
 | :--- | :--- |
@@ -167,9 +170,10 @@ Assets/_Project/Scripts/
 
 ---
 
-## 🚀 Descarga Jugable & Cómo Abrir el Proyecto en Unity
+## Jugar Ahora y Cómo Abrir el Proyecto en Unity
 
-* 🎮 **Build Jugable (Windows `.zip`):** Disponible en la sección [**Releases**](https://github.com/Gabosito1314/UnCuentoMas/releases) de este repositorio.
+* **Página Oficial en Itch.io (Jugar / Descargar):** [**eduardoviscarra.itch.io/un-cuento-mas**](https://eduardoviscarra.itch.io/un-cuento-mas)
+* **Build Jugable Directa (Windows `.zip`):** Disponible en [**GitHub Releases (v1.0.0)**](https://github.com/Gabosito1314/UnCuentoMas/releases/tag/v1.0.0).
 
 ### Abrir el Código Fuente en Unity 6
 1. Clonar este repositorio:
@@ -182,6 +186,6 @@ Assets/_Project/Scripts/
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
-**Gabriel Viscarra** ([@Gabosito1314](https://github.com/Gabosito1314)) — *Unity / C# Gameplay & Systems Programmer*
+**Eduardo Gabriel Viscarra Quisbert** — [GitHub `@Gabosito1314`](https://github.com/Gabosito1314) · [Itch.io `eduardoviscarra.itch.io`](https://eduardoviscarra.itch.io/) — *Desarrollador de Videojuegos en Unity (2D / 3D) & Game Designer*
